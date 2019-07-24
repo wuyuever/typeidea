@@ -34,7 +34,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=10, verbose_name="名称")
     status = models.PositiveIntegerField(default=STATUS_NORMAL, choices=STATUS_ITEMS, verbose_name="状态")
     owner = models.ForeignKey(User, verbose_name="作者")
-    cerated_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
         return self.name
