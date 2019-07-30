@@ -27,7 +27,7 @@ class PostInline(admin.TabularInline):
     model = Post
 
 
-@admin.register(Category)
+@admin.register(Category, site=custom_site)
 class CategoryAdmin(admin.ModelAdmin):
     inlines = [PostInline,]
     list_display = ('name', 'status', 'is_nav','owner', 'created_time')
@@ -41,8 +41,13 @@ class CategoryAdmin(admin.ModelAdmin):
         qs = super(CategoryAdmin, self).get_queryset(request)
         return qs.filter(owner=request.user)
 
+    def post_count(self, obj):
+        return obj.post_set.count()
 
-@admin.register(Tag)
+    post_count.short_description = '文章数量'
+
+
+@admin.register(Tag, site=custom_site)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'owner','created_time')
     fields = ('name', 'status')
@@ -55,6 +60,11 @@ class TagAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super(TagAdmin, self).get_queryset(request)
         return qs.filter(owner=request.user)
+
+    def post_count(self, obj):
+        return obj.post_set.count()
+
+    post_count.short_description = '文章数量'
 
 
 @admin.register(Post, site=custom_site)
